@@ -20,7 +20,7 @@ export const register = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) throwError(400, errors.array().map(e => e.msg).join(", "));
 
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     // Check if email exists
     const existing = await User.findOne({ email });
@@ -28,9 +28,9 @@ export const register = async (req, res, next) => {
 
     // Hash password & create user
     const hashed = await bcrypt.hash(password, saltRounds);
-    const user = await User.create({ name, email, password: hashed });
+    const user = await User.create({ name, email, password: hashed, role });
 
-    // Generate token
+
 
     res.status(201).json({
       success:true,
