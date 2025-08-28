@@ -15,6 +15,7 @@ export const bookResolver = {
 
     book: async (_, { id }) => await getBook(id),
   },
+  
 
   Mutation: {
     createBook: authorizeRolesgraphql("Admin")(async (_, args, context) => {
