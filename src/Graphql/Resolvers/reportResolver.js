@@ -3,7 +3,7 @@ import {
   mostBorrowedBooks,
   activeMembers,
   bookAvailability,
-} from "../controllers/reportController.js";
+} from "../Controllers/reportController.js";
 
 export const reportResolver = {
   Query: {

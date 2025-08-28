@@ -1,5 +1,6 @@
 
 import { getAllUsers, getUserById, loginUser, registerUser } from './../Controllers/userController.js';
+
 export const userResolver = {
   Query: {
     users: async () => await getAllUsers(),

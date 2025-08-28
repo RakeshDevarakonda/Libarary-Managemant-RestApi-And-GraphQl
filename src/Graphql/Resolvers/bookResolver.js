@@ -5,7 +5,7 @@ import {
   deleteBook,
   listBooks,
   getBook,
-} from "../controllers/bookController.js";
+} from "../Controllers/bookController.js";
 
 export const bookResolver = {
   Query: {
@@ -15,7 +15,7 @@ export const bookResolver = {
 
     book: async (_, { id }) => await getBook(id),
   },
-  
+
 
   Mutation: {
     createBook: authorizeRolesgraphql("Admin")(async (_, args, context) => {

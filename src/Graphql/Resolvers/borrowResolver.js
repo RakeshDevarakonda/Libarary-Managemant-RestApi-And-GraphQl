@@ -2,7 +2,7 @@ import {
   borrowBook,
   returnBook,
   myBorrowHistory,
-} from "../controllers/borrowController.js";
+} from "../Controllers/borrowController.js";
 
 export const borrowResolver = {
   Query: {
