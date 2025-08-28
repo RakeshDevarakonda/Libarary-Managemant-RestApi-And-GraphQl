@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
 
-export const bookSchema = gql`
+
+export const bookSchema = `#graphql
   type Book {
     id: ID!
     title: String!

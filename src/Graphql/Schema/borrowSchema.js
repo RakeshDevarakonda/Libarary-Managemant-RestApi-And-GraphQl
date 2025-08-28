@@ -1,6 +1,5 @@
-import gql from "graphql-tag";
 
-export const borrowSchema = gql`
+export const borrowSchema = `#graphql
   type Borrow {
     id: ID!
     user: User

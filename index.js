@@ -7,34 +7,34 @@ import connectDB from "./src/config/db.js";
 import { errorHandler } from "./src/middleware/errorHandler.js";
 import restRouter from "./src/RestApi/routes/RestRoutes.js";
 
-import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
+import { ApolloServer } from "apollo-server-express";
 import { typeDefs } from "./src/Graphql/Schema/index.js";
 import { resolvers } from "./src/Graphql/Resolvers/index.js";
 import User from "./src/models/User.js";
 
 import jwt from "jsonwebtoken";
-const app = express();
-const PORT = process.env.PORT_RESTAPI;
 
+const app = express();
+const PORT = process.env.PORT_RESTAPI || 5000;
+
+// Connect to MongoDB
 connectDB();
 
+// Middleware
 app.use(helmet());
-
 app.use(cors());
 app.use(express.json());
 
+// REST API routes
 app.use("/restapi", restRouter);
 
+// Root endpoint
 app.get("/", (req, res) => res.send("Nalanda Library API is running"));
 
-app.use(errorHandler);
-
-const server = new ApolloServer({ typeDefs, resolvers });
-
-
-const { url } = await startStandaloneServer(server, {
-  listen: { port: process.env.PORT_GRAPHQL },
+// Apollo Server setup
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
   context: async ({ req }) => {
     const authHeader = req.headers.authorization || "";
     let user = null;
@@ -49,12 +49,19 @@ const { url } = await startStandaloneServer(server, {
       }
     }
 
-    return { user }; // resolvers can access context.user
+    return { user };
   },
 });
 
-console.log(`🚀 GraphQL Server ready at: ${url}`);
+await server.start();
+server.applyMiddleware({ app, path: "/graphql" });
 
+app.use(errorHandler);
+
+// Start server
 app.listen(PORT, () => {
-  console.log(`🚀 RestApi Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(
+    `🚀 GraphQL endpoint available at http://localhost:${PORT}/graphql`
+  );
 });

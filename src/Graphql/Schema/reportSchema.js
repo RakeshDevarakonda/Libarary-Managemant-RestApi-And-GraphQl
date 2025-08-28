@@ -1,6 +1,5 @@
-import gql from "graphql-tag";
 
-export const reportSchema = gql`
+export const reportSchema = `#graphql
   type BorrowReport {
     title: String
     author: String
