@@ -16,7 +16,8 @@ export const createBook = async (req, res, next) => {
           .join(", ")
       );
 
-    const { title, author, isbn, publicationDate, genre, totalCopies } = req.body;
+    const { title, author, isbn, publicationDate, genre, totalCopies } =
+      req.body;
 
     const existingBook = await Book.findOne({
       $or: [
@@ -35,7 +36,7 @@ export const createBook = async (req, res, next) => {
       publicationDate,
       genre,
       availableCopies: totalCopies,
-      totalCopies
+      totalCopies,
     });
 
     res.status(201).json({
@@ -86,10 +87,42 @@ export const deleteBook = async (req, res, next) => {
 
 export const listBooks = async (req, res, next) => {
   try {
-    const books = await Book.find().sort({ createdAt: -1 }); // all books
+    // Pagination
+    const page = parseInt(req.query.page) || 1; // default page 1
+    const limit = parseInt(req.query.limit) || 10; // default 10 books per page
+    const skip = (page - 1) * limit;
+
+    // Filters
+    const filter = {};
+    if (req.query.title) {
+      filter.title = { $regex: req.query.title, $options: "i" }; // case-insensitive
+    }
+    if (req.query.author) {
+      filter.author = { $regex: req.query.author, $options: "i" };
+    }
+    if (req.query.genre) {
+      filter.genre = { $regex: req.query.genre, $options: "i" };
+    }
+    if (req.query.available) {
+      filter.availableCopies = { $gt: 0 }; // availableCopies > 0
+    }
+
+    // Sorting
+    const sortField = req.query.sortBy || "createdAt";
+    const sortOrder = req.query.order === "asc" ? 1 : -1;
+
+    // Fetch books
+    const books = await Book.find(filter)
+      .sort({ [sortField]: sortOrder })
+      .skip(skip)
+      .limit(limit);
+
+    const totalBooks = await Book.countDocuments(filter);
 
     res.json({
-      total: books.length,
+      total: totalBooks,
+      page,
+      pages: Math.ceil(totalBooks / limit),
       data: books,
     });
   } catch (err) {

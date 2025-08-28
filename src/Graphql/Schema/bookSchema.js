@@ -12,9 +12,17 @@ export const bookSchema = gql`
     availableCopies: Int
   }
 
-  
   type Query {
-    books: [Book]
+    books(
+      page: Int
+      limit: Int
+      title: String
+      author: String
+      genre: String
+      available: Boolean
+      sortBy: String
+      order: String
+    ): [Book]
     book(id: ID!): Book
   }
 

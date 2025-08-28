@@ -78,10 +78,46 @@ export const deleteBook = async (id) => {
 };
 
 // List Books
-export const listBooks = async () => {
-  const books = await Book.find().sort({ createdAt: -1 });
-  return books;
+
+export const listBooks = async (options = {}) => {
+  const {
+    page = 1,
+    limit = 10,
+    title,
+    author,
+    genre,
+    available,
+    sortBy = "createdAt",
+    order = "desc",
+  } = options;
+
+  const skip = (page - 1) * limit;
+
+  // Build filters
+  const filter = {};
+  if (title) filter.title = { $regex: title, $options: "i" };
+  if (author) filter.author = { $regex: author, $options: "i" };
+  if (genre) filter.genre = { $regex: genre, $options: "i" };
+  if (available) filter.availableCopies = { $gt: 0 };
+
+  // Sorting
+  const sortOrder = order === "asc" ? 1 : -1;
+
+  const books = await Book.find(filter)
+    .sort({ [sortBy]: sortOrder })
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Book.countDocuments(filter);
+
+  return {
+    total,
+    page,
+    pages: Math.ceil(total / limit),
+    data: books,
+  };
 };
+
 
 // Get Single Book
 export const getBook = async (id) => {

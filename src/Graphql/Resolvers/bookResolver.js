@@ -9,13 +9,24 @@ import {
 
 export const bookResolver = {
   Query: {
-    books: async () => {
-      return await listBooks();
+    books: async (parent, args) => {
+      const result = await listBooks({
+        page: args.page,
+        limit: args.limit,
+        title: args.title,
+        author: args.author,
+        genre: args.genre,
+        available: args.available,
+        sortBy: args.sortBy,
+        order: args.order,
+      });
+
+
+      return result.data;
     },
 
     book: async (_, { id }) => await getBook(id),
   },
-
 
   Mutation: {
     createBook: authorizeRolesgraphql("Admin")(async (_, args, context) => {
