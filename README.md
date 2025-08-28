@@ -43,8 +43,6 @@ A backend system for a library management platform called **Nalanda**, built usi
 - **Database**: MongoDB
 - **Authentication**: JWT
 - **GraphQL**: Apollo Server
-- **Optional**: AWS deployment, BitBucket for version control
-
 ---
 
 ## Getting Started
@@ -52,7 +50,7 @@ A backend system for a library management platform called **Nalanda**, built usi
 ### Prerequisites
 - Node.js (>= 18)
 - MongoDB (local or Atlas)
-- npm or yarn
+- npm
 
 ### Installation
 1. Clone the repository:
