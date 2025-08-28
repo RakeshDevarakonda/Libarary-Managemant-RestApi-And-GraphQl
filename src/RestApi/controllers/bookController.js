@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 
-import Book from "../models/Book.js";
+import Book from "../../models/Book.js";
 import { throwError } from "../../utils/throwError.js";
 import { validateObjectId } from "../../utils/validators.js";
 

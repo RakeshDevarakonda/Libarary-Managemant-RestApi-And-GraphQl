@@ -11,7 +11,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { typeDefs } from "./src/Graphql/Schema/index.js";
 import { resolvers } from "./src/Graphql/Resolvers/index.js";
-import User from "./src/RestApi/models/User.js";
+import User from "./src/models/User.js";
 
 import jwt from "jsonwebtoken";
 const app = express();

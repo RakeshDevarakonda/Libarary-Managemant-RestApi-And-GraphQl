@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { validationResult } from "express-validator";
-import User from "../models/User.js";
+import User from "../../models/User.js";
 import { throwError } from "../../utils/throwError.js";
 
 const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || "10");

@@ -1,3 +1,4 @@
+import { authorizeRolesgraphql } from "../../middleware/authMiddleware.js";
 import {
   mostBorrowedBooks,
   activeMembers,
@@ -6,22 +7,25 @@ import {
 
 export const reportResolver = {
   Query: {
-    mostBorrowedBooks: async (parent, args, context) => {
-      if (!context.user) throw new Error("Authentication required");
-      const data= await mostBorrowedBooks();
-      console.log(data)
-      return data;
+    mostBorrowedBooks: authorizeRolesgraphql("Admin")(
+      async (parent, args, context) => {
+        if (!context.user) throw new Error("Authentication required");
+        return await mostBorrowedBooks();
+      }
+    ),
 
-    },
+    activeMembers: authorizeRolesgraphql("Admin")(
+      async (parent, args, context) => {
+        if (!context.user) throw new Error("Authentication required");
+        return await activeMembers();
+      }
+    ),
 
-    activeMembers: async (parent, args, context) => {
-      if (!context.user) throw new Error("Authentication required");
-      return await activeMembers();
-    },
-
-    bookAvailability: async (parent, args, context) => {
-      if (!context.user) throw new Error("Authentication required");
-      return bookAvailability();
-    },
+    bookAvailability: authorizeRolesgraphql("Admin")(
+      async (parent, args, context) => {
+        if (!context.user) throw new Error("Authentication required");
+        return bookAvailability();
+      }
+    ),
   },
 };

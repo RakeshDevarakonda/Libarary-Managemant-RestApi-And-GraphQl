@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../../RestApi/models/User.js";
+import User from "../../models/User.js";
 
 const saltRounds = 10;
 

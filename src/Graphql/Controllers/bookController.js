@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Book from "../../RestApi/models/Book.js";
+import Book from "../../models/Book.js";
 
 // Create Book
 export const createBook = async (data) => {

@@ -1,5 +1,5 @@
-import Borrow from "../../RestApi/models/Borrow.js";
-import Book from "../../RestApi/models/Book.js";
+import Borrow from "../../models/Borrow.js";
+import Book from "../../models/Book.js";
 
 export const mostBorrowedBooks = async () => {
   const pipeline = [

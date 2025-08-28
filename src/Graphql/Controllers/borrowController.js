@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import Borrow from "../../RestApi/models/Borrow.js";
-import Book from "../../RestApi/models/Book.js";
+import Borrow from "../../models/Borrow.js";
+import Book from "../../models/Book.js";
 
 // Borrow a book
 export const borrowBook = async ({ userId, bookId }) => {

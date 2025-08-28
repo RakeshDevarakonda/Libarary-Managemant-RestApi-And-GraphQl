@@ -1,6 +1,5 @@
-import Borrow from "../models/Borrow.js";
-import Book from "../models/Book.js";
-import { throwError } from "../../utils/throwError.js";
+import Borrow from "../../models/Borrow.js";
+import Book from "../../models/Book.js";
 
 
 export const mostBorrowedBooks = async (req, res, next) => {

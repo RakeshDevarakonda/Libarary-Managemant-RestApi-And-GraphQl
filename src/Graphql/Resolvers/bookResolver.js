@@ -1,3 +1,4 @@
+import { authorizeRolesgraphql } from "../../middleware/authMiddleware.js";
 import {
   createBook,
   updateBook,
@@ -16,22 +17,24 @@ export const bookResolver = {
   },
 
   Mutation: {
-    createBook: async (_, args, context) => {
+    createBook: authorizeRolesgraphql("Admin")(async (_, args, context) => {
       if (!context.user) throw new Error("Authentication required");
-      const book = await createBook(args); 
+      const book = await createBook(args);
       return book;
-    },
+    }),
 
-    updateBook: async (_, { id, ...updates }, context) => {
-      if (!context.user) throw new Error("Authentication required");
-      const book = await updateBook(id, updates);
-      return book;
-    },
+    updateBook: authorizeRolesgraphql("Admin")(
+      async (_, { id, ...updates }, context) => {
+        if (!context.user) throw new Error("Authentication required");
+        const book = await updateBook(id, updates);
+        return book;
+      }
+    ),
 
-    deleteBook: async (_, { id }, context) => {
+    deleteBook: authorizeRolesgraphql("Admin")(async (_, { id }, context) => {
       if (!context.user) throw new Error("Authentication required");
       const book = await deleteBook(id);
       return book;
-    },
+    }),
   },
 };
